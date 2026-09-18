@@ -49,4 +49,4 @@ Demo discounts use percentage calculations rounded half-up to cents. New orders 
 - `src/styles.css`: responsive screen and print styles.
 - `docs/`: discovery context, scope, decisions, walkthrough and verification record.
 
-No remote services are required or modified by running this demo.
+Order processing requires no remote services. Feedback is explicitly submitted to Natusoy's Supabase project through a server-only Vercel Function. See [feedback setup](docs/feedback.md).

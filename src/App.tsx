@@ -3,6 +3,7 @@ import type { Order, Status } from "./domain/order";
 import { statusLabels, subtotal, money } from "./domain/order";
 import { orderRepository } from "./data/localOrderRepository";
 import { OrderEntry } from "./components/OrderEntry";
+import { Feedback } from "./feedback/Feedback";
 import { OrderReview } from "./components/OrderReview";
 import { OrderPreview } from "./components/OrderPreview";
 
@@ -413,10 +414,11 @@ export default function App() {
         <footer className="no-print">
           Saving Lia{" "}
           <span>
-            Local demonstration · No live orders or external connections
+            Demo orders stay in this browser · Submitted feedback is stored by Natusoy
           </span>
         </footer>
       </div>
+      <Feedback view={view} orderId={order?.id} />
       {resetOpen && (
         <div className="modal-backdrop no-print">
           <section
