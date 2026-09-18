@@ -22,6 +22,11 @@ beforeEach(() => {
 });
 afterEach(() => vi.unstubAllEnvs());
 describe("feedback endpoint", () => {
+  it.each(["Lia", "Aram", "Glen", "Justin"])("accepts %s as a feedback author", async (author) => {
+    const data = form(); data.set("author", author);
+    expect((await handleFeedback(request(data))).status).toBe(201);
+    expect(mocks.insert).toHaveBeenCalledWith(expect.objectContaining({ author }));
+  });
   it("rejects an invalid author before any remote writes", async () => {
     const data = form(); data.set("author", "Someone else");
     expect((await handleFeedback(request(data))).status).toBe(400); expect(mocks.upload).not.toHaveBeenCalled();

@@ -2,7 +2,7 @@
 
 Feedback captures the visible application viewport only when Feedback is pressed.
 The screenshot is taken before the composer opens. Author choices are Lia, Aram,
-and Glen; these are self-identification, not authentication. Orders stay in the
+Glen, and Justin; these are self-identification, not authentication. Orders stay in the
 existing browser repository. Feedback never saves or discards order edits.
 
 ## Server setup

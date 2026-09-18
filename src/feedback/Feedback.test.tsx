@@ -25,7 +25,7 @@ it("captures before opening the composer and does not capture on render", async 
   expect(screen.queryByRole("dialog")).toBeNull();
   resolve(new Blob(["image"], { type: "image/png" }));
   await screen.findByRole("dialog");
-  expect(screen.getAllByRole("radio").map(r => (r as HTMLInputElement).value)).toEqual(["Lia", "Aram", "Glen"]);
+  expect(screen.getAllByRole("radio").map(r => (r as HTMLInputElement).value)).toEqual(["Lia", "Aram", "Glen", "Justin"]);
 });
 it("leaves unsaved order quantity and persisted orders unchanged when cancelled", async () => {
   render(<App />);

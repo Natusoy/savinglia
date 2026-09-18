@@ -1,6 +1,6 @@
 export const views = ["dashboard", "entry", "review", "confirmation", "driver"] as const;
 export type ViewName = (typeof views)[number];
-export const authors = ["Lia", "Aram", "Glen"] as const;
+export const authors = ["Lia", "Aram", "Glen", "Justin"] as const;
 export type Author = (typeof authors)[number];
 export const screenTitles: Record<ViewName, string> = {
   dashboard: "Order dashboard", entry: "New order", review: "Order review",

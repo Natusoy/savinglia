@@ -16,7 +16,7 @@ export async function validateFeedback(data: FormData) {
     return value;
   }
   const author = field("author", 10, true);
-  if (!["Lia", "Aram", "Glen"].includes(author)) throw new InvalidFeedback("Choose Lia, Aram, or Glen.");
+  if (!["Lia", "Aram", "Glen", "Justin"].includes(author)) throw new InvalidFeedback("Choose Lia, Aram, Glen, or Justin.");
   const note = field("note", 5000, true);
   const view_name = field("view_name", 20, true);
   if (!VIEWS.includes(view_name)) throw new InvalidFeedback("Invalid view.");
