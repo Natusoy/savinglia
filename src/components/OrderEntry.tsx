@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import type { Order, OrderLine } from "../domain/order";
 import { money } from "../domain/order";
 import { customers, products, makeLine } from "../data/demoData";
@@ -19,12 +19,26 @@ export function OrderEntry({
   const [lines, setLines] = useState<OrderLine[]>([makeLine("STN2001")]);
   const [sku, setSku] = useState("PP40786");
   const [error, setError] = useState("");
+  const [productNotice, setProductNotice] = useState<{ sku: string; text: string }>();
+  const pendingProductFocus = useRef<string | null>(null);
+  const lineCards = useRef(new Map<string, HTMLDivElement>());
+  useLayoutEffect(() => {
+    if (!pendingProductFocus.current) return;
+    const card = lineCards.current.get(pendingProductFocus.current);
+    card?.focus({ preventScroll: true });
+    card?.scrollIntoView({ block: "center", behavior: "instant" });
+    pendingProductFocus.current = null;
+  }, [lines, productNotice]);
   function add() {
+    if (!sku) return;
+    pendingProductFocus.current = sku;
     if (lines.some((l) => l.sku === sku)) {
-      setError("This product is already included. Update its quantity below.");
+      setProductNotice({ sku, text: "Already in this order. Update Requested Qty here, or select a different product above." });
       return;
     }
     setLines([...lines, makeLine(sku)]);
+    setProductNotice({ sku, text: "Product added. Set Requested Qty here. To add another product, use Select product above." });
+    setSku("");
     setError("");
     onDirty();
   }
@@ -107,11 +121,15 @@ export function OrderEntry({
         </div>
         <div className="add-product">
           <label>
-            Product
-            <select value={sku} onChange={(e) => setSku(e.target.value)}>
+            Select product
+            <span className="product-picker-help" id="product-picker-help">
+              Choose from {products.length} demo products, then add your selection to this order.
+            </span>
+            <select aria-describedby="product-picker-help" value={sku} onChange={(e) => setSku(e.target.value)}>
+              <option value="" disabled>Choose a product…</option>
               {products.map((p) => (
                 <option key={p.sku} value={p.sku}>
-                  {p.sku} · {p.description}
+                  {p.sku} · {p.description}{lines.some((line) => line.sku === p.sku) ? " · Already in order" : ""}
                 </option>
               ))}
             </select>
@@ -119,12 +137,15 @@ export function OrderEntry({
           <p className="mobile-product-selection">
             {products.find((p) => p.sku === sku)?.description}
           </p>
-          <button type="button" onClick={add}>
-            ＋ Add product
+          <button type="button" onClick={add} disabled={!sku}>
+            ＋ Add selected product
           </button>
         </div>
         {lines.map((line) => (
-          <div className="entry-line" key={line.sku}>
+          <div className="entry-line" key={line.sku} tabIndex={-1}
+            aria-label={`Order product ${line.sku}`}
+            ref={(card) => { if (card) lineCards.current.set(line.sku, card); else lineCards.current.delete(line.sku); }}>
+            {productNotice?.sku === line.sku && <p className="entry-product-notice" role="status">{productNotice.text}</p>}
             <div>
               <span className="sku">{line.sku}</span>
               <strong>{line.description}</strong>

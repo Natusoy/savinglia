@@ -579,6 +579,10 @@ footer {
 .entry-line small {
   display: block;
 }
+.product-picker-help { display: block; margin-top: 6px; font-size: 13px; font-weight: 400; }
+.entry-product-notice { grid-column: 1 / -1; color: #245844; background: #eef4e9; padding: 10px 12px; border-radius: 6px; font-size: 14px; }
+.entry-line:focus { outline: 3px solid #be974b; outline-offset: 3px; }
+.entry-line { scroll-margin-top: 80px; scroll-margin-bottom: 80px; }
 .sku {
   display: block;
   color: #8c977f;
